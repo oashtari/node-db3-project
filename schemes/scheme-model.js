@@ -10,21 +10,14 @@ module.exports = {
     remove
 }
 
-// -   `find()`:
-// -   Calling find returns a promise that resolves to an array of all schemes in the database.
-// - No steps are included.
 function find() {
     return db('schemes');  //
 }
 
-// -   `findById(id)`:
-// -   Expects a scheme `id` as its only parameter.
-// -   Resolve to a single scheme object.
-// -   On an invalid `id`, resolves to `null`.
 function findById(id) {
     // db('users').where({ id }) take this and make the line below
     // then add .first() which dumps the usr = users[0]
-    return db('users')
+    return db('schemes')
         .where({ id })
         .first()
 }
@@ -42,7 +35,10 @@ function findSteps(id) {
 
 
 function add(scheme) {
-
+    db('schemes').insert(scheme)
+        .then(ids => {
+            return findById(ids[0])
+        })
 }
 
 // -   `add(scheme)`:

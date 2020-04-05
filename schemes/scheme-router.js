@@ -52,6 +52,7 @@ router.post('/', (req, res) => {
 
   Schemes.add(schemeData)
     .then(scheme => {
+      console.log(scheme)
       res.status(201).json(scheme);
     })
     .catch(err => {
