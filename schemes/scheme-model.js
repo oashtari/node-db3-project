@@ -20,14 +20,6 @@ function findById(id) {
         .first()
 }
 
-
-// -   `findSteps(id)`:
-// -   Expects a scheme `id`.
-// -   Resolves to an array of all correctly ordered step for the given scheme: 
-// `[ { id: 17, scheme_name: 'Find the Holy Grail', step_number: 1, instructions: 'quest'},
-// { id: 18, scheme_name: 'Find the Holy Grail', step_number: 2, instructions: '...and quest'}, etc. ]`.
-// -   This array should include the `scheme_name` _not_ the `scheme_id`.
-
 function findSteps(id) {
     return db('schemes')
         .join('steps', 'schemes.id', '=', 'steps.scheme_id')
@@ -36,13 +28,22 @@ function findSteps(id) {
         .orderBy(['scheme_name', { column: 'step_number', order: 'asc' }])
 }
 
+// function findSteps(id) {
+//     db
+//         .select('steps.id', 'scheme_name', 'step_number', 'instructions')
+//         .from('schemes')
+//         .innerJoin('steps', 'steps.scheme_id', 'schemes.id')
+//         .where('schemes.id', id)
+//         .orderBy('steps.step_number')
+// }
+
 
 
 function add(scheme) {
-    db('schemes')
-        .insert(scheme)
-        .then(ids => {
-            return findById(ids[0])
+    return db('schemes')
+        .insert(scheme, 'id')
+        .then(id => {
+            return findById(id[0])
         })
 }
 
