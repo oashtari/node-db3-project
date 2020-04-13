@@ -15,8 +15,6 @@ function find() {
 }
 
 function findById(id) {
-    // db('users').where({ id }) take this and make the line below
-    // then add .first() which dumps the usr = users[0]
     return db('schemes')
         .where({ id })
         .first()
@@ -25,17 +23,24 @@ function findById(id) {
 
 // -   `findSteps(id)`:
 // -   Expects a scheme `id`.
-// -   Resolves to an array of all correctly ordered step for the given scheme: `[ { id: 17, scheme_name: 'Find the Holy Grail', step_number: 1, instructions: 'quest'}, { id: 18, scheme_name: 'Find the Holy Grail', step_number: 2, instructions: '...and quest'}, etc. ]`.
+// -   Resolves to an array of all correctly ordered step for the given scheme: 
+// `[ { id: 17, scheme_name: 'Find the Holy Grail', step_number: 1, instructions: 'quest'},
+// { id: 18, scheme_name: 'Find the Holy Grail', step_number: 2, instructions: '...and quest'}, etc. ]`.
 // -   This array should include the `scheme_name` _not_ the `scheme_id`.
 
 function findSteps(id) {
-
+    return db('schemes')
+        .join('steps', 'schemes.id', '=', 'steps.scheme_id')
+        .select('schemes.scheme_name', 'steps.step_number', 'steps.instructions')
+        .where({ 'schemes.id': id })
+        .orderBy(['scheme_name', { column: 'step_number', order: 'asc' }])
 }
 
 
 
 function add(scheme) {
-    db('schemes').insert(scheme)
+    db('schemes')
+        .insert(scheme)
         .then(ids => {
             return findById(ids[0])
         })
