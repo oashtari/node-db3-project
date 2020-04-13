@@ -37,8 +37,6 @@ function findSteps(id) {
 //         .orderBy('steps.step_number')
 // }
 
-
-
 function add(scheme) {
     return db('schemes')
         .insert(scheme, 'id')
@@ -47,34 +45,22 @@ function add(scheme) {
         })
 }
 
-// -   `add(scheme)`:
-// -   Expects a scheme object.
-// -   Inserts scheme into the database.
-// -   Resolves to the newly inserted scheme, including `id`.
 
-function update(id, changes) {
-    return db('users')
+function update(changes, id) {
+    return db('schemes')
         .where({ id })
-        .update(changes)
+        .update(changes, 'id')
         .then(() => { // if you want to return the item, this is not needed
             return findById(id)
         })
 }
 
-// -   `update(changes, id)`:
-// -   Expects a changes object and an `id`.
-// -   Updates the scheme with the given id.
-// -   Resolves to the newly updated scheme object.
-
 function remove(id) {
-
+    return db('schemes')
+        .where({ id })
+        .del();
 }
 
-// -   `remove(id)`:
-// -   Removes the scheme object with the provided id.
-// -   Resolves to the removed scheme
-// -   Resolves to `null` on an invalid id.
-// -   (Hint: Only worry about removing the `scheme`. The database is configured to automatically remove all associated steps.)
 
 
 
