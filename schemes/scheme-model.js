@@ -7,8 +7,10 @@ module.exports = {
     findSteps,
     add,
     update,
-    remove
+    remove,
+    addStep
 }
+
 
 function find() {
     return db('schemes');  //
@@ -28,15 +30,6 @@ function findSteps(id) {
         .orderBy(['scheme_name', { column: 'step_number', order: 'asc' }])
 }
 
-// function findSteps(id) {
-//     db
-//         .select('steps.id', 'scheme_name', 'step_number', 'instructions')
-//         .from('schemes')
-//         .innerJoin('steps', 'steps.scheme_id', 'schemes.id')
-//         .where('schemes.id', id)
-//         .orderBy('steps.step_number')
-// }
-
 function add(scheme) {
     return db('schemes')
         .insert(scheme, 'id')
@@ -44,7 +37,6 @@ function add(scheme) {
             return findById(id[0])
         })
 }
-
 
 function update(changes, id) {
     return db('schemes')
@@ -61,6 +53,21 @@ function remove(id) {
         .del();
 }
 
+
+// STRETCH
+
+function addStep(step, scheme_id) {
+    console.log('this is the new step', step)
+    const newStep = { ...step, "scheme_id": scheme_id };
+
+    return db('steps')
+        .insert(newStep, 'id')
+        .then(id => {
+            return db('steps')
+                .select('*')
+                .where({ id: id[0] })
+        })
+}
 
 
 
