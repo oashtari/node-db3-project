@@ -23,6 +23,7 @@ Use a graphical tool like `SQLite Studio` to open `./data/northwind.db3` and exe
 -   Display the name and quantity of the products ordered in order with Id 10251. Sort by ProductName. Returns 3 records.
 -   Display the OrderID, customer's Company Name and the employee's Last Name for every order. All columns should be labeled clearly. Returns 16,789 records.
 
+
 ### Database Methods
 
 Write helpers methods in `./schemes/scheme-model.js` that match the following specifications:
@@ -87,3 +88,4 @@ The following endpoints are available to test the functionality of the model met
 -   Add the following method to your API
     -   `addStep(step, scheme_id)`: This method expects a step object and a scheme id. It inserts the new step into the database, correctly linking it to the intended scheme.
     -   You may use `POST /api/schemes/:id/addStep` to test this method.
+
